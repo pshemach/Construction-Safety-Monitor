@@ -1,0 +1,25 @@
+# Core
+ultralytics>=8.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Data & image processing
+opencv-python>=4.8.0
+Pillow>=10.0.0
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Dataset tools
+roboflow>=1.1.0
+split-folders>=0.5.1
+
+# Visualisation & reporting
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Web demo
+gradio>=4.0.0
+
+# Utilities
+tqdm>=4.65.0
+PyYAML>=6.0.0

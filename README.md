@@ -1,6 +1,5 @@
 # Construction Safety Monitor
 
-**Associate Software Engineer – AI/ML Challenge**  
 _Computer Vision System for Real-Time Construction Site Safety Monitoring_
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)

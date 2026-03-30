@@ -5,8 +5,8 @@ VIOLATION_CLASSES = {
     "NO-Mask":        "Worker detected without a face mask",
 }
 
-# Classes that represent compliant PPE (used for confidence bonus)
-COMPLIANT_CLASSES = {"Hardhat", "Safety Vest", "Mask"}
+# Classes that represent compliant PPE
+COMPLIANT_CLASSES = {"Hardhat", "Safety Vest", "Mask", "Gloves"}
 
 # Colour palette for bounding boxes (BGR for OpenCV)
 COLOUR_MAP = {
@@ -17,11 +17,12 @@ COLOUR_MAP = {
     "NO-Hardhat":   (0,   0,  220),   # red
     "NO-Safety Vest":(0,  0,  200),   # dark red
     "NO-Mask":      (60,  0,  200),   # purple-red
-    "Safety Cone":  (0, 220, 255),    # yellow
-    "machinery":    (140, 140, 140),
-    "vehicle":      (180, 180, 180),
+    "Gloves":  (0, 220, 255)          # yellow
 }
 
 # Model parameters
 DEFAULT_CONF = 0.40   # minimum confidence threshold
 DEFAULT_IOU  = 0.45   # NMS IoU threshold
+
+# Video extensions
+VIDEO_EXTENSIONS = {".mp4", ".avi", ".mov", ".mkv", ".wmv", ".flv", ".webm", ".m4v"}

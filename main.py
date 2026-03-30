@@ -6,6 +6,6 @@ inspector = SafetyInspector(
     )
 
 
-result= inspector.detect_image('data/test_images/image_1.jpg')
+result= inspector.detect_image('data/test_images/image_7.jpg')
 
 print(result)

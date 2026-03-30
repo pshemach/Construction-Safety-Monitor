@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 8
+names: ['Gloves', 'Hardhat', 'Mask', 'NO-Hardhat', 'NO-Mask', 'NO-Safety Vest', 'Person', 'Safety Vest']
+
+roboflow:
+  workspace: test-levac
+  project: construction-site-safety-jejzr
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/test-levac/construction-site-safety-jejzr/dataset/1

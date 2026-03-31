@@ -6,9 +6,40 @@ import csv
 from collections import Counter
 from typing import List, Optional
 from pathlib import Path
-from src.entity.inference_entity import FrameReport
+from src.entity.inference_entity import FrameReport, SceneReport
 from src.core.inference import SafetyInspector
 from src.constant import *
+
+def draw_report(image: np.ndarray, report: SceneReport) -> np.ndarray:
+    """Draw bounding boxes and verdict banner onto an image."""
+    img = image.copy()
+    h, w = img.shape[:2]
+
+    for det in report.detections:
+        x1, y1, x2, y2 = (int(v) for v in det.bbox)
+        colour = COLOUR_MAP.get(det.label, (200, 200, 200))
+        thickness = 3 if det.is_violation else 2
+        cv2.rectangle(img, (x1, y1), (x2, y2), colour, thickness)
+
+        label_text = f"{det.label} {det.confidence:.2f}"
+        (tw, th), _ = cv2.getTextSize(label_text, cv2.FONT_HERSHEY_SIMPLEX, 0.55, 1)
+        cv2.rectangle(img, (x1, y1 - th - 8), (x1 + tw + 4, y1), colour, -1)
+        cv2.putText(img, label_text, (x1 + 2, y1 - 4),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 1, cv2.LINE_AA)
+
+    banner_colour = (0, 0, 200) if report.verdict == "UNSAFE" else (0, 160, 60)
+    banner_h = 44
+    cv2.rectangle(img, (0, 0), (w, banner_h), banner_colour, -1)
+
+    banner_text = (f"{'⚠ ' if report.verdict == 'UNSAFE' else '✓ '}"
+                   f"{report.verdict}  |  "
+                   f"{len(report.violations)} violation(s)  |  "
+                   f"{report.scene_confidence*100:.0f}% conf  |  "
+                   f"{report.inference_ms:.0f}ms")
+    cv2.putText(img, banner_text, (10, 29),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2, cv2.LINE_AA)
+
+    return img
 
 def draw_frame(frame: np.ndarray, report: FrameReport,
                show_timestamp: bool = True) -> np.ndarray:
@@ -161,6 +192,28 @@ def run_video(inspector: SafetyInspector,
     print(f"  Output : {output_dir}/")
     print("="*60)
 
+def run_live(inspector: SafetyInspector, source):
+    """Real-time inference on webcam or video file."""
+    cap = cv2.VideoCapture(int(source) if str(source).isdigit() else str(source))
+    if not cap.isOpened():
+        print(f"[!] Cannot open source: {source}")
+        return
+
+    print("[→] Running live inference — press 'q' to quit")
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        report   = inspector.inspect_frame(frame)
+        annotated = draw_report(frame, report)
+        cv2.imshow("Construction Safety Monitor", annotated)
+
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
 
 def _write_timeline(reports: List[FrameReport], path: Path) -> None:
     from collections import defaultdict

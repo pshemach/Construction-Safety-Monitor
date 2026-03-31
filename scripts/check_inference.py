@@ -6,9 +6,7 @@ import argparse
 import cv2
 from src.core.inference import SafetyInspector
 from src.constant import *
-from src.utils.images_utils import *
-from src.utils.videos_utils import *
-from src.utils.live_utils import run_live
+from src.utils.process_utils import *
 
 def parse_args():
     p = argparse.ArgumentParser()
@@ -34,8 +32,6 @@ def main():
     elif source.is_file() and source.suffix.lower() in VIDEO_EXTENSIONS:
         run_video(inspector, source, args.output_dir,
                   no_display=args.no_display, skip_frames=args.skip_frames)
-    elif source.is_dir():
-        run_batch(inspector, source, args.output_dir)
     elif source.is_file():
         report = inspector.detect_image(str(source))
         print("\n" + report.alert_message)

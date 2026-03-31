@@ -57,6 +57,15 @@ source .venv/bin/activate
 
 ```
 
+Launch app:
+
+```
+
+python app.py
+
+
+```
+
 ---
 
 ## 🛡️ Safety Rules Defined

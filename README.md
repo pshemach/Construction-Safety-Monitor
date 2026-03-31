@@ -6,7 +6,7 @@ _Computer Vision System for Real-Time Construction Site Safety Monitoring_
 [![Ultralytics YOLO](https://img.shields.io/badge/YOLO-v9c-brightgreen)](https://docs.ultralytics.com/)
 [![Roboflow](https://img.shields.io/badge/Roboflow-Dataset-blue)](https://universe.roboflow.com/test-levac/construction-site-safety-jejzr/dataset/1)
 
-## 📋 Project Overview
+## Project Overview
 
 This project implements a **computer vision system** that answers the core question:  
 **“Is this situation safe or unsafe?”**
@@ -57,7 +57,7 @@ python app.py
 
 ---
 
-## 🛡️ Safety Rules Defined
+## Safety Rules Defined
 
 The system enforces the following **clear, enforceable safety rules**:
 
@@ -74,7 +74,7 @@ The system enforces the following **clear, enforceable safety rules**:
 
 ---
 
-## 📊 Dataset
+## Dataset
 
 **Source**: Roboflow project `construction-site-safety-jejzr` (version 1)  
 **Custom Preparation**:
@@ -95,7 +95,7 @@ The system enforces the following **clear, enforceable safety rules**:
 
 ---
 
-## 🧠 Model & Training
+## Model & Training
 
 - **Architecture**: YOLOv9c
 - **Environment**: Google Colab (Tesla T4 GPU)

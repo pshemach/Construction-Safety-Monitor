@@ -27,6 +27,8 @@ The system:
 git clone https://github.com/pshemach/Construction-Safety-Monitor.git
 cd Construction-Safety-Monitor
 
+```
+
 Create a virtual environment and install dependencies using **uv**:
 
 ```
@@ -52,7 +54,6 @@ Linux / macOS:
 
 source .venv/bin/activate
 
-```
 
 ```
 

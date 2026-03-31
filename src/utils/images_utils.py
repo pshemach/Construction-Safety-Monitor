@@ -76,7 +76,7 @@ def run_batch(inspector: SafetyInspector, source_dir: Path,
         json_path = report_dir / (img_path.stem + ".json")
         json_path.write_text(json.dumps(report.to_dict(), indent=2))
 
-        status = "🔴 UNSAFE" if report.verdict == "UNSAFE" else "🟢 SAFE"
+        status = "UNSAFE" if report.verdict == "UNSAFE" else "SAFE"
         print(f"  [{i:4d}/{len(image_paths)}]  {status}  {img_path.name}"
               f"  ({report.inference_ms:.0f}ms)  "
               f"{len(report.violations)} violation(s)")
@@ -105,35 +105,11 @@ def run_batch(inspector: SafetyInspector, source_dir: Path,
     total = safe_count + unsafe_count
     print(f"\n{'═'*60}")
     print(f"  Results: {total} images processed")
-    print(f"  🟢 SAFE:   {safe_count}  ({safe_count/total*100:.1f}%)")
-    print(f"  🔴 UNSAFE: {unsafe_count}  ({unsafe_count/total*100:.1f}%)")
+    print(f"  SAFE:   {safe_count}  ({safe_count/total*100:.1f}%)")
+    print(f"  UNSAFE: {unsafe_count}  ({unsafe_count/total*100:.1f}%)")
     print(f"  Annotated images → {ann_dir}")
     print(f"  JSON reports     → {report_dir}")
     print(f"  Summary CSV      → {csv_path}")
     print("═"*60)
 
     return reports
-
-
-def run_live(inspector: SafetyInspector, source):
-    """Real-time inference on webcam or video file."""
-    cap = cv2.VideoCapture(int(source) if str(source).isdigit() else str(source))
-    if not cap.isOpened():
-        print(f"[!] Cannot open source: {source}")
-        return
-
-    print("[→] Running live inference — press 'q' to quit")
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
-
-        report   = inspector.inspect_frame(frame)
-        annotated = draw_report(frame, report)
-        cv2.imshow("Construction Safety Monitor", annotated)
-
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
-
-    cap.release()
-    cv2.destroyAllWindows()

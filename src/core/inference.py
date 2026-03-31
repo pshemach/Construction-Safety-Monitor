@@ -5,7 +5,7 @@ from ultralytics import YOLO
 import torch
 from collections import Counter
 from ..constant import *
-from ..entity.inference_entity import Detection, SceneReport
+from ..entity.inference_entity import Detection, SceneReport, FrameReport
 
 class SafetyInspector:
     """
@@ -34,17 +34,41 @@ class SafetyInspector:
         
         return self._build_report(image_path, results[0], elapsed_ms)
     
-    def inspect_frame(self, frame: np.ndarray) -> SceneReport:
+    def inspect_frame(self, frame: np.ndarray, frame_idx: int = 0,
+                      timestamp_sec: float = 0.0) -> FrameReport:
         t0      = time.perf_counter()
         results = self.model.predict(
-            source  = frame,
-            conf    = self.conf,
-            iou     = self.iou,
-            device  = self.device,
-            verbose = False,
+            source=frame, conf=self.conf, iou=self.iou,
+            device=self.device, verbose=False,
         )
-        elapsed_ms = (time.perf_counter() - t0) * 1000
-        return self._build_report("frame", results[0], elapsed_ms)  
+        ms = (time.perf_counter() - t0) * 1000
+
+        names      = self.model.names
+        detections = []
+        violations = []
+
+        for box in results[0].boxes:
+            label  = names[int(box.cls)]
+            conf   = float(box.conf)
+            x1,y1,x2,y2 = box.xyxy[0].tolist()
+            is_vio = label in VIOLATION_CLASSES
+            det    = Detection(label, conf, (x1,y1,x2,y2), is_vio)
+            detections.append(det)
+            if is_vio:
+                violations.append(det)
+
+        driving  = violations or [d for d in detections if d.label in COMPLIANT_CLASSES] or detections
+        conf_val = float(np.mean([d.confidence for d in driving])) if driving else 0.5
+
+        return FrameReport(
+            frame_idx        = frame_idx,
+            timestamp_sec    = timestamp_sec,
+            verdict          = "UNSAFE" if violations else "SAFE",
+            scene_confidence = round(min(max(conf_val, 0.0), 1.0), 4),
+            violations       = violations,
+            detections       = detections,
+            inference_ms     = ms,
+        ) 
     
     def _build_report(self, source: str, result, elapsed_ms: float) -> SceneReport:
         detections: List[Detection] = []

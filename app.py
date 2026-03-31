@@ -4,16 +4,14 @@ import gradio as gr
 import numpy as np
 from PIL import Image
 from src.core.inference import SafetyInspector
-from src.utils.core_utils import draw_report
-
+from src.utils.images_utils import draw_report
 
 _inspector: SafetyInspector = None # loaded once at startup
-
 
 def load_inspector(weights: str, conf: float, device: str):
     global _inspector
     _inspector = SafetyInspector(weights=weights, conf=conf, device=device)
-    print(f"[✓] Model ready — launch Gradio UI")
+    print(f"Model ready — launch Gradio UI")
 
 
 def predict(pil_image: Image.Image):
@@ -21,10 +19,9 @@ def predict(pil_image: Image.Image):
     if pil_image is None:
         return None, "—", "Upload an image to get started.", "{}"
 
-    # Convert PIL → OpenCV BGR
     frame = cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
 
-    report    = _inspector.inspect_frame(frame)
+    report    = _inspector.detect_image(frame)
     annotated = draw_report(frame, report)
 
     # Convert back to PIL for Gradio
@@ -86,13 +83,12 @@ The model checks for **hard hats** and **high-visibility vests**.
     return demo
 
 def parse_args():
-    p = argparse.ArgumentParser(description="Gradio demo for construction safety")
-    p.add_argument("--weights",  default="data/model.pt", help="Path to best.pt")
-    p.add_argument("--conf",     type=float, default=0.40)
-    p.add_argument("--device",   default="",  help="'cuda', 'cpu', or device index")
-    p.add_argument("--port",     type=int, default=7860)
-    p.add_argument("--share",    action="store_true",
-                   help="Create a public share link (useful for Colab)")
+    p = argparse.ArgumentParser(description="Demo for construction safety")
+    p.add_argument("--weights", default="data/model.pt", help="Path to model.pt")
+    p.add_argument("--conf", type=float, default=0.40)
+    p.add_argument("--device", default=None,  help="'cuda', 'cpu', or device index")
+    p.add_argument("--port", type=int, default=7860)
+    p.add_argument("--share", action="store_true", help="Create a public share link")
     return p.parse_args()
 
 def main():

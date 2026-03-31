@@ -26,7 +26,6 @@ The system:
 # 1. Clone and install
 git clone https://github.com/pshemach/Construction-Safety-Monitor.git
 cd Construction-Safety-Monitor
-
 ```
 
 Create a virtual environment and install dependencies using **uv**:
@@ -34,7 +33,6 @@ Create a virtual environment and install dependencies using **uv**:
 ```
 uv venv
 uv sync
-
 ```
 
 Activate the environment
@@ -43,21 +41,18 @@ Windows:
 
 ```
 .venv\Scripts\activate
-
 ```
 
 Linux / macOS:
 
 ```
 source .venv/bin/activate
-
 ```
 
 Launch app:
 
 ```
 python app.py
-
 ```
 
 ---
@@ -76,6 +71,8 @@ The system enforces the following **clear, enforceable safety rules**:
 
 - **SAFE** → No violation classes detected
 - **UNSAFE** → Any `NO-*` class is present in the frame
+
+---
 
 ## 📊 Dataset
 
@@ -96,8 +93,12 @@ The system enforces the following **clear, enforceable safety rules**:
 - Valid: 78 images, 568 annotations
 - Test: 52 images, 433 annotations
 
+---
+
 ## 🧠 Model & Training
 
 - **Architecture**: YOLOv9c
 - **Environment**: Google Colab (Tesla T4 GPU)
 - **Training Notebook**: `Construction_Safety_Monitor_Training.ipynb` (included)
+
+---

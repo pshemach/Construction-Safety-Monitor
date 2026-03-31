@@ -1,7 +1,6 @@
 import cv2
 import csv
 import json
-import time
 import numpy as np
 from pathlib import Path
 from typing import List
@@ -88,7 +87,6 @@ def run_batch(inspector: SafetyInspector, source_dir: Path,
         else:
             safe_count += 1
 
-    # ── Summary CSV ──────────────────────────────────────────────────────────
     csv_path = output_dir / "summary.csv"
     with csv_path.open("w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=[
@@ -104,7 +102,6 @@ def run_batch(inspector: SafetyInspector, source_dir: Path,
                 "inference_ms": r.inference_ms,
             })
 
-    # ── Final summary ────────────────────────────────────────────────────────
     total = safe_count + unsafe_count
     print(f"\n{'═'*60}")
     print(f"  Results: {total} images processed")

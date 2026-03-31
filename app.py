@@ -1,6 +1,4 @@
 import argparse
-import tempfile
-from pathlib import Path
 import cv2
 import gradio as gr
 import numpy as np
@@ -78,9 +76,9 @@ The model checks for **hard hats** and **high-visibility vests**.
         )
 
         gr.Examples(
-            examples  = ['data/test_images/image_1.jpg', 
-                         'data/test_images/image_2.jpg',
-                         'data/test_images/image_5.jpg'],  
+            examples  = ['data/test_data/image_1.jpg', 
+                         'data/test_data/image_2.jpg',
+                         'data/test_data/image_5.jpg'],  
             inputs    = [input_image],
             label     = "Try an example",
         )

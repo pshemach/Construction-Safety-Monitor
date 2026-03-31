@@ -1,17 +1,11 @@
-import argparse
-
 import time
-from dataclasses import dataclass, field, asdict
-from pathlib import Path
-from typing import List, Tuple
-import cv2
+from typing import List
 import numpy as np
 from ultralytics import YOLO
 import torch
 from collections import Counter
 from ..constant import *
 from ..entity.inference_entity import Detection, SceneReport
-
 
 class SafetyInspector:
     """

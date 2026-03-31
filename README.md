@@ -18,6 +18,28 @@ The system:
 - Performs a per-scene compliance check against defined safety rules
 - Flags violations clearly with colored bounding boxes and a **SAFE / UNSAFE** verdict
 
+---
+
+## Quick start
+
+```bash
+# 1. Clone and install
+git clone https://github.com/YOUR_USERNAME/construction-safety.git
+cd construction-safety
+pip install -r requirements.txt
+
+# 2. Run inference on a single image
+python src/inference.py --weights models/best.pt --source image.jpg
+
+# 3. Run inference on a video file
+python src/inference.py --weights models/best.pt --source site_footage.mp4
+
+# 4. Launch the full web demo
+python src/app.py --weights models/best.pt --share
+```
+
+---
+
 ## 🛡️ Safety Rules Defined
 
 The system enforces the following **clear, enforceable safety rules**:

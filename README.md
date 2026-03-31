@@ -146,3 +146,21 @@ The system enforces the following **clear, enforceable safety rules**:
 | Gloves         | 0.500     | 0.217  | 0.399   | 0.278        |
 
 ---
+
+## Inference
+
+```bash
+# Single image
+python script/check_inference.py --source site_photo.jpg
+
+# Video file — saves annotated MP4 + per-second timeline CSV
+python script/check_inference.py --source site_footage.mp4
+
+# Video with skip frames (3× faster, good for long footage)
+python script/check_inference.py --source site_footage.mp4 --skip-frames 2
+
+# Webcam
+python script/check_inference.py --weights models/best.pt --source 0 --live
+```
+
+---

@@ -32,7 +32,6 @@ cd Construction-Safety-Monitor
 Create a virtual environment and install dependencies using **uv**:
 
 ```
-
 uv venv
 uv sync
 
@@ -43,7 +42,6 @@ Activate the environment
 Windows:
 
 ```
-
 .venv\Scripts\activate
 
 ```
@@ -51,18 +49,14 @@ Windows:
 Linux / macOS:
 
 ```
-
 source .venv/bin/activate
-
 
 ```
 
 Launch app:
 
 ```
-
 python app.py
-
 
 ```
 

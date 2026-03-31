@@ -24,18 +24,36 @@ The system:
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/YOUR_USERNAME/construction-safety.git
-cd construction-safety
-pip install -r requirements.txt
+git clone https://github.com/pshemach/Construction-Safety-Monitor.git
+cd Construction-Safety-Monitor
 
-# 2. Run inference on a single image
-python src/inference.py --weights models/best.pt --source image.jpg
+Create a virtual environment and install dependencies using **uv**:
 
-# 3. Run inference on a video file
-python src/inference.py --weights models/best.pt --source site_footage.mp4
+```
 
-# 4. Launch the full web demo
-python src/app.py --weights models/best.pt --share
+uv venv
+uv sync
+
+```
+
+Activate the environment
+
+Windows:
+
+```
+
+.venv\Scripts\activate
+
+```
+
+Linux / macOS:
+
+```
+
+source .venv/bin/activate
+
+```
+
 ```
 
 ---

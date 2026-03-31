@@ -5,7 +5,8 @@ import cv2
 import gradio as gr
 import numpy as np
 from PIL import Image
-from src.core.inference import SafetyInspector, draw_report
+from src.core.inference import SafetyInspector
+from src.utils.core_utils import draw_report
 
 
 _inspector: SafetyInspector = None # loaded once at startup
@@ -15,6 +16,7 @@ def load_inspector(weights: str, conf: float, device: str):
     global _inspector
     _inspector = SafetyInspector(weights=weights, conf=conf, device=device)
     print(f"[✓] Model ready — launch Gradio UI")
+
 
 def predict(pil_image: Image.Image):
     """Prediction function"""
@@ -41,6 +43,7 @@ def predict(pil_image: Image.Image):
     json_text  = __import__("json").dumps(report.to_dict(), indent=2)
 
     return output_pil, verdict_md, alert_text, json_text
+
 
 def build_ui() -> gr.Blocks:
     """Gradio UI layout"""
@@ -75,7 +78,9 @@ The model checks for **hard hats** and **high-visibility vests**.
         )
 
         gr.Examples(
-            examples  = [],  
+            examples  = ['data/test_images/image_1.jpg', 
+                         'data/test_images/image_2.jpg',
+                         'data/test_images/image_5.jpg'],  
             inputs    = [input_image],
             label     = "Try an example",
         )
@@ -97,6 +102,7 @@ def main():
     load_inspector(args.weights, args.conf, args.device)
     demo = build_ui()
     demo.launch(server_port=args.port, share=args.share)
+
 
 if __name__ == "__main__":
     main()

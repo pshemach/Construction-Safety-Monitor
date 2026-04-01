@@ -151,16 +151,16 @@ The system enforces the following **clear, enforceable safety rules**:
 
 ```bash
 # Single image
-python script/check_inference.py --source site_photo.jpg
+python scripts/check_inference.py --source data/test_data/image_1.jpg
 
 # Video file — saves annotated MP4 + per-second timeline CSV
-python script/check_inference.py --source site_footage.mp4
+python scripts/check_inference.py --source data/test_data/test.mp4
 
-# Video with skip frames (3× faster, good for long footage)
-python script/check_inference.py --source site_footage.mp4 --skip-frames 2
+# Video with skip frames (3× faster)
+python scripts/check_inference.py --source data/test_data/test.mp4 --skip-frames 2
 
 # Webcam
-python script/check_inference.py --weights models/best.pt --source 0 --live
+python scripts/check_inference.py --source 0 --live
 ```
 
 ---

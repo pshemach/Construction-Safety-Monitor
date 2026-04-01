@@ -4,7 +4,7 @@ import gradio as gr
 import numpy as np
 from PIL import Image
 from src.core.inference import SafetyInspector
-from src.utils.images_utils import draw_report
+from src.utils.process_utils import draw_report
 
 _inspector: SafetyInspector = None # loaded once at startup
 
